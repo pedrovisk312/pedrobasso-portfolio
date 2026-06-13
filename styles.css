@@ -279,10 +279,15 @@ h3 { font-size: 1.2rem; letter-spacing: -0.04em; }
 .card-content a { color: var(--purple-light); font-weight: 900; }
 
 .split {
-  display: grid;
-  grid-template-columns: .8fr 1.2fr;
-  gap: 34px;
-  align-items: start;
+  display: block;
+}
+
+.split .section-title {
+  margin-bottom: 24px;
+}
+
+.split .service-list {
+  width: 100%;
 }
 
 .service-list { overflow: hidden; }
