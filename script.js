@@ -1,34 +1,265 @@
-const menuButton = document.querySelector('#menuButton');
-const navLinks = document.querySelector('#navLinks');
-const fadeItems = document.querySelectorAll('.fade-in');
-document.querySelector('#year').textContent = new Date().getFullYear();
-menuButton.addEventListener('click', () => navLinks.classList.toggle('open'));
-navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => navLinks.classList.remove('open')));
-const observer = new IntersectionObserver(entries => entries.forEach(entry => {
-  if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
-}), { threshold: .15 });
-fadeItems.forEach(item => observer.observe(item));
-const modal = document.getElementById('videoModal');
-const iframe = document.getElementById('videoIframe');
-const modalClose = document.getElementById('modalClose');
-const modalBackdrop = document.getElementById('modalBackdrop');
-function openModal(videoId, format = 'wide') { if (!videoId) return; iframe.parentElement.classList.toggle('vertical', format === 'vertical'); iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`; modal.classList.add('open'); document.body.style.overflow = 'hidden'; }
-function closeModal() { modal.classList.remove('open'); iframe.src = ''; iframe.parentElement.classList.remove('vertical'); document.body.style.overflow = ''; }
-document.querySelectorAll('.work-card').forEach(card => {
-  const videoId = card.dataset.video?.trim();
-  if (!videoId) return;
-  const button = card.querySelector('.view-video-btn');
-  button.disabled = false; button.textContent = '▶ Watch video';
-  const format = card.dataset.format || 'wide';
-  card.querySelector('.thumb').addEventListener('click', () => openModal(videoId, format));
-  button.addEventListener('click', () => openModal(videoId, format));
+const menuToggle = document.getElementById("menuToggle");
+const navLinks = document.getElementById("navLinks");
+
+menuToggle.addEventListener("click", () => {
+  const isOpen = navLinks.classList.toggle("open");
+  menuToggle.setAttribute("aria-expanded", String(isOpen));
 });
-modalClose.addEventListener('click', closeModal);
-modalBackdrop.addEventListener('click', closeModal);
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-# PedroBasso Portfolio
+document.querySelectorAll(".nav-links a").forEach((link) => {
+  link.addEventListener("click", () => {
+    navLinks.classList.remove("open");
+    menuToggle.setAttribute("aria-expanded", "false");
+  });
+});
 
-Personal portfolio website for Pedro Basso, focused on documentary editing, visual storytelling, talking-head content and short-form videos.
+document.getElementById("year").textContent = new Date().getFullYear();
 
-Open `index.html` to preview the website locally.
+const modal = document.getElementById("videoModal");
+const videoFrame = document.getElementById("videoFrame");
+const closeButton = document.getElementById("modalClose");
+const backdrop = document.getElementById("modalBackdrop");
+
+function openVideo(videoId) {
+  videoFrame.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+  modal.classList.add("open");
+  modal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
+}
+
+function closeVideo() {
+  videoFrame.src = "";
+  modal.classList.remove("open");
+  modal.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("modal-open");
+}
+
+document.querySelectorAll("[data-video]").forEach((button) => {
+  button.addEventListener("click", () => openVideo(button.dataset.video));
+});
+
+closeButton.addEventListener("click", closeVideo);
+backdrop.addEventListener("click", closeVideo);
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && modal.classList.contains("open")) {
+    closeVideo();
+  }
+});
+
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+        observer.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.12 }
+);
+
+document.querySelectorAll(".reveal").forEach((element) => observer.observe(element));
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Pedro Basso — video editor focused on documentaries, talking heads and short-form content." />
+  <title>Pedro Basso | Video Editor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="#home">Pedro<span>Basso</span></a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+        <a href="#contact" class="nav-cta">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">DOCUMENTARY VIDEO EDITOR</p>
+          <h1>Stories that <em>stay with you.</em></h1>
+          <p class="hero-text">
+            I turn raw footage into immersive videos through pacing, sound design,
+            subtitles and visual storytelling.
+          </p>
+
+          <div class="hero-actions">
+            <a class="button primary" href="#work">View my work</a>
+            <a class="button secondary" href="#contact">Contact me</a>
+          </div>
+        </div>
+
+        <div class="hero-card reveal">
+          <div class="hero-card-line"></div>
+          <p>Focused on</p>
+          <strong>Documentaries</strong>
+          <strong>Talking Heads</strong>
+          <strong>Short-Form Content</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="work">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="eyebrow">SELECTED WORK</p>
+          <h2>Recent projects</h2>
+        </div>
+
+        <div class="work-grid">
+          <article class="project-card reveal">
+            <button class="project-thumb" data-video="Q-vG1MHUV5k" aria-label="Play Darkwood documentary">
+              <img src="https://img.youtube.com/vi/Q-vG1MHUV5k/maxresdefault.jpg" alt="Darkwood documentary thumbnail">
+              <span class="project-tag">DARK DOCUMENTARY</span>
+              <span class="play-button">▶</span>
+            </button>
+            <div class="project-info">
+              <span class="project-number">01</span>
+              <h3>Darkwood: A Dark Documentary</h3>
+              <p>A dark documentary edit focused on tension, atmosphere and narrative pacing.</p>
+              <button class="text-button" data-video="Q-vG1MHUV5k">Watch video →</button>
+            </div>
+          </article>
+
+          <article class="project-card reveal">
+            <button class="project-thumb vertical-thumb" data-video="2k-YKeMwMp8" aria-label="Play talking head video">
+              <img src="https://img.youtube.com/vi/2k-YKeMwMp8/hqdefault.jpg" alt="Talking head video thumbnail">
+              <span class="project-tag">TALKING HEAD</span>
+              <span class="play-button">▶</span>
+            </button>
+            <div class="project-info">
+              <span class="project-number">02</span>
+              <h3>High-Retention Talking Head</h3>
+              <p>Fast pacing, clean subtitles and visual emphasis designed for retention.</p>
+              <button class="text-button" data-video="2k-YKeMwMp8">Watch video →</button>
+            </div>
+          </article>
+
+          <article class="project-card reveal">
+            <button class="project-thumb vertical-thumb" data-video="5cXFj9K3FDA" aria-label="Play short-form video">
+              <img src="https://img.youtube.com/vi/5cXFj9K3FDA/hqdefault.jpg" alt="Short-form talking head thumbnail">
+              <span class="project-tag">SHORT FORM</span>
+              <span class="play-button">▶</span>
+            </button>
+            <div class="project-info">
+              <span class="project-number">03</span>
+              <h3>Short-Form Talking Head Edit</h3>
+              <p>A vertical edit combining subtitles, movement and clean visual structure.</p>
+              <button class="text-button" data-video="5cXFj9K3FDA">Watch video →</button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section about-section" id="about">
+      <div class="container about-grid">
+        <div class="section-heading reveal">
+          <p class="eyebrow">ABOUT ME</p>
+          <h2>Pedro Basso</h2>
+        </div>
+
+        <div class="about-content reveal">
+          <p>
+            I'm a video editor focused on documentaries, talking heads and short-form content.
+            I work with pacing, sound design, subtitles and visual selection to create clear,
+            professional and engaging videos.
+          </p>
+
+          <div class="skills">
+            <span>Premiere Pro</span>
+            <span>Documentaries</span>
+            <span>Storytelling</span>
+            <span>Talking Heads</span>
+            <span>Short Form</span>
+            <span>Sound Design</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section contact-section" id="contact">
+      <div class="container">
+        <div class="contact-card reveal">
+          <div>
+            <p class="eyebrow">CONTACT</p>
+            <h2>Let's work together</h2>
+            <p>Send me your idea, footage or references.</p>
+          </div>
+
+          <div class="contact-actions">
+            <a class="contact-link" href="mailto:pedrovisk.e.bassox@gmail.com">
+              <span>Email</span>
+              <small>pedrovisk.e.bassox@gmail.com</small>
+            </a>
+
+            <a class="contact-link" href="https://discord.com/users/618508893743743005" target="_blank" rel="noopener noreferrer">
+              <span>Discord</span>
+              <small>Open profile</small>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-wrap">
+      <p>© <span id="year"></span> Pedro Basso</p>
+      <a href="#home">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <div class="video-modal" id="videoModal" aria-hidden="true">
+    <button class="modal-backdrop" id="modalBackdrop" aria-label="Close video"></button>
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-label="Portfolio video">
+      <button class="modal-close" id="modalClose" aria-label="Close video">×</button>
+      <div class="video-frame">
+        <iframe
+          id="videoFrame"
+          src=""
+          title="Portfolio video"
+          allow="autoplay; encrypted-media; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+# Pedro Basso Portfolio
+
+Static portfolio website for Pedro Basso, video editor focused on documentaries, talking heads and short-form content.
+
+## Files
+
+- `index.html`
+- `styles.css`
+- `script.js`
+
+## GitHub Pages
+
+Publish from the `main` branch and `/(root)` folder.
