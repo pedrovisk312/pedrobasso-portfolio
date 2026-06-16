@@ -3,186 +3,852 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Pedro Basso — video editor focused on documentaries, talking heads and short-form content." />
-  <title>Pedro Basso | Video Editor</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
+  <title>Pedro Basso | Documentary Video Editor</title>
+  <meta name="description" content="Pedro Basso — video editor focused on documentaries, cinematic storytelling and story-driven content." />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+    :root {
+      --bg: #050404;
+      --bg-soft: #110606;
+      --card: rgba(255,255,255,.055);
+      --card-strong: #160b0c;
+      --border: rgba(255,255,255,.10);
+      --text: #fff5f5;
+      --muted: #b9a4a4;
+      --red: #c1121f;
+      --red-light: #ff3b47;
+      --radius: 22px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+      font-family: Inter, Arial, sans-serif;
+      color: var(--text);
+      line-height: 1.5;
+      background:
+        radial-gradient(circle at 18% 8%, rgba(193,18,31,.24), transparent 30%),
+        radial-gradient(circle at 84% 36%, rgba(255,59,71,.10), transparent 27%),
+        linear-gradient(180deg, #050404, #090405 46%, #050404);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: .15;
+      background-image:
+        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+      background-size: 38px 38px;
+      mask-image: linear-gradient(to bottom, black, transparent 92%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .site-header {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 50;
+      border-bottom: 1px solid var(--border);
+      background: rgba(5,4,4,.78);
+      backdrop-filter: blur(15px);
+    }
+
+    .nav {
+      width: min(1120px, calc(100% - 32px));
+      height: 74px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      font-size: 1.25rem;
+      font-weight: 900;
+      letter-spacing: -.05em;
+    }
+
+    .brand span {
+      color: var(--red-light);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      color: var(--muted);
+      font-size: .95rem;
+      font-weight: 700;
+    }
+
+    .nav-links a {
+      transition: color .2s ease;
+    }
+
+    .nav-links a:hover {
+      color: #fff;
+    }
+
+    .nav-contact {
+      padding: 10px 16px;
+      color: #fff !important;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+    }
+
+    .menu-button {
+      display: none;
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--card-strong);
+      cursor: pointer;
+    }
+
+    .menu-button span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      margin: 5px auto;
+      background: #fff;
+    }
+
+    .hero {
+      width: min(1120px, calc(100% - 32px));
+      min-height: 100vh;
+      margin: auto;
+      padding: 140px 0 90px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+    }
+
+    .hero-content {
+      max-width: 900px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .label {
+      margin-bottom: 16px;
+      color: var(--red-light);
+      font-size: .76rem;
+      font-weight: 900;
+      letter-spacing: .20em;
+    }
+
+    h1 {
+      margin-bottom: 26px;
+      font-size: clamp(4.6rem, 13vw, 9rem);
+      line-height: .83;
+      letter-spacing: -.095em;
+    }
+
+    h1 span {
+      display: block;
+      color: var(--red-light);
+    }
+
+    h2 {
+      font-size: clamp(2.1rem, 5vw, 4.35rem);
+      line-height: .95;
+      letter-spacing: -.07em;
+    }
+
+    h3 {
+      font-size: clamp(1.55rem, 3vw, 2.1rem);
+      line-height: 1;
+      letter-spacing: -.055em;
+    }
+
+    .description {
+      max-width: 650px;
+      color: var(--muted);
+      font-size: 1.12rem;
+    }
+
+    .hero-buttons,
+    .contact-actions {
+      margin-top: 32px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .button {
+      min-height: 50px;
+      padding: 0 22px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform .2s ease, background .2s ease, border-color .2s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+    }
+
+    .primary {
+      color: #fff;
+      background: var(--red);
+      box-shadow: 0 18px 50px rgba(193,18,31,.36);
+    }
+
+    .secondary {
+      color: #fff;
+      border-color: var(--border);
+      background: rgba(255,255,255,.06);
+    }
+
+    .section {
+      width: min(1120px, calc(100% - 32px));
+      margin: auto;
+      padding: 90px 0;
+    }
+
+    .section-title {
+      max-width: 760px;
+      margin-bottom: 34px;
+    }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .work-card,
+    .about-text,
+    .contact-box {
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: 0 22px 70px rgba(0,0,0,.18);
+    }
+
+    .work-card {
+      transition: transform .25s ease, border-color .25s ease;
+    }
+
+    .work-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(255,59,71,.38);
+    }
+
+    .thumb {
+      position: relative;
+      min-height: 310px;
+      padding: 24px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      isolation: isolate;
+    }
+
+    .thumb::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        linear-gradient(180deg, rgba(5,4,4,.02), rgba(5,4,4,.94)),
+        var(--thumb-image, linear-gradient(135deg,#4f080d,#0b0809));
+      background-size: cover;
+      background-position: center;
+      transform: scale(1.01);
+      transition: transform .35s ease;
+    }
+
+    .thumb::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        linear-gradient(135deg, rgba(193,18,31,.54), transparent 48%),
+        repeating-linear-gradient(90deg, rgba(255,255,255,.018) 0 1px, transparent 1px 9px);
+    }
+
+    .work-card:hover .thumb::before {
+      transform: scale(1.045);
+    }
+
+    .project-type {
+      position: relative;
+      z-index: 2;
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .18em;
+      text-shadow: 0 3px 20px rgba(0,0,0,.9);
+    }
+
+    .project-number {
+      position: absolute;
+      top: 18px;
+      right: 22px;
+      color: rgba(255,255,255,.32);
+      font-size: 3.1rem;
+      font-weight: 900;
+      letter-spacing: -.08em;
+    }
+
+    .thumb h3 {
+      position: relative;
+      z-index: 2;
+      max-width: 78%;
+      text-shadow: 0 4px 22px rgba(0,0,0,.95);
+    }
+
+    .play-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      display: grid;
+      place-items: center;
+      opacity: 0;
+      background: rgba(0,0,0,.32);
+      transition: opacity .2s ease;
+    }
+
+    .play-overlay span {
+      width: 68px;
+      height: 68px;
+      padding-left: 4px;
+      border: 1px solid rgba(255,255,255,.22);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,.12);
+      backdrop-filter: blur(8px);
+      font-size: 1.3rem;
+    }
+
+    .work-card:hover .play-overlay {
+      opacity: 1;
+    }
+
+    .fallout-thumb::before {
+      background:
+        linear-gradient(180deg, rgba(8,9,5,.03), rgba(5,4,4,.96)),
+        radial-gradient(circle at 30% 30%, rgba(233,199,78,.50), transparent 22%),
+        linear-gradient(135deg, #66561d 0%, #283229 42%, #0d0d0b 100%);
+    }
+
+    .fallout-thumb::after {
+      background:
+        linear-gradient(135deg, rgba(223,177,42,.34), transparent 48%),
+        repeating-linear-gradient(0deg, rgba(255,255,255,.022) 0 1px, transparent 1px 7px);
+    }
+
+    .card-content {
+      padding: 22px;
+    }
+
+    .card-content p {
+      min-height: 52px;
+      margin-bottom: 14px;
+      color: var(--muted);
+    }
+
+    .view-video-btn {
+      padding: 0;
+      border: 0;
+      color: var(--red-light);
+      background: transparent;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .view-video-btn:hover {
+      color: #fff;
+    }
+
+    .about {
+      display: grid;
+      grid-template-columns: .75fr 1.25fr;
+      gap: 34px;
+      align-items: start;
+    }
+
+    .about-text {
+      padding: 30px;
+    }
+
+    .about-text p + p {
+      margin-top: 16px;
+    }
+
+    .about-text p,
+    .contact-box p,
+    footer {
+      color: var(--muted);
+    }
+
+    .tags {
+      margin-top: 26px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .tags span {
+      padding: 9px 13px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255,255,255,.07);
+      font-size: .89rem;
+      font-weight: 750;
+    }
+
+    .contact-box {
+      padding: clamp(26px, 5vw, 48px);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .contact-actions {
+      margin-top: 0;
+      justify-content: flex-end;
+    }
+
+    .contact-link {
+      min-width: 245px;
+      padding: 15px 20px;
+      border-radius: 18px;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .contact-link small {
+      margin-top: 3px;
+      color: rgba(255,255,255,.68);
+      font-size: .72rem;
+      font-weight: 600;
+    }
+
+    footer {
+      width: min(1120px, calc(100% - 32px));
+      margin: auto;
+      padding: 30px 0 44px;
+      border-top: 1px solid var(--border);
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .video-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: grid;
+      place-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s ease;
+    }
+
+    .video-modal.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .video-modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(5,5,9,.92);
+      backdrop-filter: blur(10px);
+    }
+
+    .video-modal-container {
+      position: relative;
+      z-index: 1;
+      width: min(900px, calc(100vw - 32px));
+      transform: translateY(24px) scale(.97);
+      transition: transform .3s cubic-bezier(.22,1,.36,1);
+    }
+
+    .video-modal.open .video-modal-container {
+      transform: translateY(0) scale(1);
+    }
+
+    .video-modal-close {
+      position: absolute;
+      top: -50px;
+      right: 0;
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: rgba(255,255,255,.08);
+      font-size: 1.7rem;
+      cursor: pointer;
+    }
+
+    .video-modal-player {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 16px;
+      background: #000;
+      box-shadow: 0 32px 80px rgba(0,0,0,.72);
+    }
+
+    .video-modal-player iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    @media (max-width: 850px) {
+      .nav-links {
+        position: fixed;
+        top: 84px;
+        left: 16px;
+        right: 16px;
+        padding: 16px;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-8px);
+        background: rgba(17,6,6,.98);
+        transition: .2s ease;
+      }
+
+      .nav-links.open {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+
+      .nav-links a {
+        padding: 12px;
+      }
+
+      .menu-button {
+        display: block;
+      }
+
+      .work-grid,
+      .about,
+      .contact-box {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-actions {
+        justify-content: flex-start;
+      }
+
+      .contact-link {
+        width: 100%;
+      }
+
+      .thumb {
+        min-height: 285px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      h1 {
+        font-size: clamp(4rem, 22vw, 6.3rem);
+      }
+
+      .hero {
+        padding-top: 120px;
+      }
+
+      .section {
+        padding: 72px 0;
+      }
+    }
+  </style>
 </head>
 <body>
   <header class="site-header">
-    <div class="container nav-wrap">
-      <a class="brand" href="#home">Pedro<span>Basso</span></a>
+    <nav class="nav">
+      <a href="#home" class="brand">Pedro<span>Basso</span></a>
 
-      <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
-        <span></span>
-        <span></span>
-        <span></span>
+      <button class="menu-button" id="menuButton" aria-label="Open menu">
+        <span></span><span></span><span></span>
       </button>
 
-      <nav class="nav-links" id="navLinks">
+      <div class="nav-links" id="navLinks">
         <a href="#work">Work</a>
         <a href="#about">About</a>
-        <a href="#contact" class="nav-cta">Contact</a>
-      </nav>
-    </div>
+        <a href="#contact" class="nav-contact">Contact</a>
+      </div>
+    </nav>
   </header>
 
   <main>
     <section class="hero" id="home">
-      <div class="container hero-grid">
-        <div class="hero-copy reveal">
-          <p class="eyebrow">DOCUMENTARY VIDEO EDITOR</p>
-          <h1>Pedro Basso</h1>
-          <p class="hero-text">
-            I turn raw footage into immersive videos through pacing, sound design,
-            subtitles and visual storytelling.
-          </p>
+      <div class="hero-content fade-in">
+        <p class="label">DOCUMENTARY VIDEO EDITOR</p>
+        <h1>Pedro <span>Basso</span></h1>
+        <p class="description">
+          I turn raw footage into immersive stories through purposeful pacing,
+          cinematic sound design and strong visual storytelling.
+        </p>
 
-          <div class="hero-actions">
-            <a class="button primary" href="#work">View my work</a>
-            <a class="button secondary" href="#contact">Contact me</a>
-          </div>
-        </div>
-
-        <div class="hero-card reveal">
-          <div class="hero-card-line"></div>
-          <p>Focused on</p>
-          <strong>Documentaries</strong>
-          <strong>Talking Heads</strong>
-          <strong>Short-Form Content</strong>
+        <div class="hero-buttons">
+          <a href="#work" class="button primary">View my work</a>
+          <a href="#contact" class="button secondary">Start a project</a>
         </div>
       </div>
     </section>
 
     <section class="section" id="work">
-      <div class="container">
-        <div class="section-heading reveal">
-          <p class="eyebrow">SELECTED WORK</p>
-          <h2>Recent projects</h2>
-        </div>
+      <div class="section-title fade-in">
+        <p class="label">SELECTED WORK</p>
+        <h2>Stories brought to life.</h2>
+      </div>
 
-        <div class="work-grid">
-          <article class="project-card reveal">
-            <button class="project-thumb" data-video="Q-vG1MHUV5k" aria-label="Play Darkwood documentary">
-              <img src="https://img.youtube.com/vi/Q-vG1MHUV5k/maxresdefault.jpg" alt="Darkwood documentary thumbnail">
-              <span class="project-tag">DARK DOCUMENTARY</span>
-              <span class="play-button">▶</span>
-            </button>
-            <div class="project-info">
-              <span class="project-number">01</span>
-              <h3>Darkwood: A Dark Documentary</h3>
-              <p>A dark documentary edit focused on tension, atmosphere and narrative pacing.</p>
-              <button class="text-button" data-video="Q-vG1MHUV5k">Watch video →</button>
-            </div>
-          </article>
+      <div class="work-grid">
+        <article class="work-card fade-in" data-video="Q-vG1MHUV5k">
+          <div
+            class="thumb"
+            style="--thumb-image: url('https://img.youtube.com/vi/Q-vG1MHUV5k/maxresdefault.jpg')"
+          >
+            <div class="project-type">DARK DOCUMENTARY</div>
+            <span class="project-number">01</span>
+            <h3>Darkwood: A Dark Documentary</h3>
+            <div class="play-overlay"><span>▶</span></div>
+          </div>
 
-          <article class="project-card reveal">
-            <button class="project-thumb vertical-thumb" data-video="2k-YKeMwMp8" aria-label="Play talking head video">
-              <img src="https://img.youtube.com/vi/2k-YKeMwMp8/hqdefault.jpg" alt="Talking head video thumbnail">
-              <span class="project-tag">TALKING HEAD</span>
-              <span class="play-button">▶</span>
-            </button>
-            <div class="project-info">
-              <span class="project-number">02</span>
-              <h3>High-Retention Talking Head</h3>
-              <p>Fast pacing, clean subtitles and visual emphasis designed for retention.</p>
-              <button class="text-button" data-video="2k-YKeMwMp8">Watch video →</button>
-            </div>
-          </article>
+          <div class="card-content">
+            <p>
+              A dark, atmospheric documentary edit built around tension,
+              storytelling and cinematic sound design.
+            </p>
+            <button class="view-video-btn" type="button">▶ Watch video</button>
+          </div>
+        </article>
 
-          <article class="project-card reveal">
-            <button class="project-thumb vertical-thumb" data-video="5cXFj9K3FDA" aria-label="Play short-form video">
-              <img src="https://img.youtube.com/vi/5cXFj9K3FDA/hqdefault.jpg" alt="Short-form talking head thumbnail">
-              <span class="project-tag">SHORT FORM</span>
-              <span class="play-button">▶</span>
-            </button>
-            <div class="project-info">
-              <span class="project-number">03</span>
-              <h3>Short-Form Talking Head Edit</h3>
-              <p>A vertical edit combining subtitles, movement and clean visual structure.</p>
-              <button class="text-button" data-video="5cXFj9K3FDA">Watch video →</button>
-            </div>
-          </article>
+        <article
+          class="work-card fade-in external-project"
+          data-external-url="https://f.io/2gUE_U35"
+        >
+          <div class="thumb fallout-thumb">
+            <div class="project-type">FALLOUT DOCUMENTARY</div>
+            <span class="project-number">02</span>
+            <h3>Fallout: The Truth Behind Vault-Tec</h3>
+            <div class="play-overlay"><span>↗</span></div>
+          </div>
+
+          <div class="card-content">
+            <p>
+              A cinematic Fallout edit exploring Vault-Tec, its experiments
+              and the dark purpose hidden behind the vaults.
+            </p>
+            <button class="view-video-btn" type="button">↗ Watch video</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section about" id="about">
+      <div class="section-title fade-in">
+        <p class="label">ABOUT ME</p>
+        <h2>Documentary-focused editing.</h2>
+      </div>
+
+      <div class="about-text fade-in">
+        <p>
+          I'm Pedro Basso, a video editor focused on documentaries and
+          story-driven content. My goal is to make every cut feel intentional
+          and every visual serve the narrative.
+        </p>
+        <p>
+          I combine pacing, sound design, subtitles and careful visual
+          selection to create videos that feel professional and memorable.
+        </p>
+
+        <div class="tags">
+          <span>Premiere Pro</span>
+          <span>Documentaries</span>
+          <span>Storytelling</span>
+          <span>Cinematic Editing</span>
+          <span>Short Form</span>
+          <span>Sound Design</span>
         </div>
       </div>
     </section>
 
-    <section class="section about-section" id="about">
-      <div class="container about-grid">
-        <div class="section-heading reveal">
-          <p class="eyebrow">ABOUT ME</p>
-          <h2>Pedro Basso</h2>
-        </div>
-
-        <div class="about-content reveal">
+    <section class="section" id="contact">
+      <div class="contact-box fade-in">
+        <div>
+          <p class="label">LET'S WORK TOGETHER</p>
+          <h2>Have a story to tell?</h2>
           <p>
-            I'm a video editor focused on documentaries, talking heads and short-form content.
-            I work with pacing, sound design, subtitles and visual selection to create clear,
-            professional and engaging videos.
+            Send me your footage, idea or reference. Let's turn it into a video
+            people remember.
           </p>
-
-          <div class="skills">
-            <span>Premiere Pro</span>
-            <span>Documentaries</span>
-            <span>Storytelling</span>
-            <span>Talking Heads</span>
-            <span>Short Form</span>
-            <span>Sound Design</span>
-          </div>
         </div>
-      </div>
-    </section>
 
-    <section class="section contact-section" id="contact">
-      <div class="container">
-        <div class="contact-card reveal">
-          <div>
-            <p class="eyebrow">CONTACT</p>
-            <h2>Let's work together</h2>
-            <p>Send me your idea, footage or references.</p>
-          </div>
+        <div class="contact-actions">
+          <a
+            class="button primary contact-link"
+            href="mailto:pedrovisk.e.bassox@gmail.com"
+          >
+            <span>Email</span>
+            <small>pedrovisk.e.bassox@gmail.com</small>
+          </a>
 
-          <div class="contact-actions">
-            <a class="contact-link" href="mailto:pedrovisk.e.bassox@gmail.com">
-              <span>Email</span>
-              <small>pedrovisk.e.bassox@gmail.com</small>
-            </a>
-
-            <a class="contact-link" href="https://discord.com/users/618508893743743005" target="_blank" rel="noopener noreferrer">
-              <span>Discord</span>
-              <small>Open profile</small>
-            </a>
-          </div>
+          <a
+            class="button secondary contact-link"
+            href="https://discord.com/users/618508893743743005"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>Discord</span>
+            <small>Open my Discord profile</small>
+          </a>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="container footer-wrap">
-      <p>© <span id="year"></span> Pedro Basso</p>
-      <a href="#home">Back to top ↑</a>
-    </div>
+  <footer>
+    <p>© <span id="year"></span> Pedro Basso. Documentary Video Editor.</p>
   </footer>
 
-  <div class="video-modal" id="videoModal" aria-hidden="true">
-    <button class="modal-backdrop" id="modalBackdrop" aria-label="Close video"></button>
-    <div class="modal-dialog" role="dialog" aria-modal="true" aria-label="Portfolio video">
-      <button class="modal-close" id="modalClose" aria-label="Close video">×</button>
-      <div class="video-frame">
+  <div class="video-modal" id="videoModal">
+    <div class="video-modal-backdrop" id="modalBackdrop"></div>
+    <div class="video-modal-container">
+      <button class="video-modal-close" id="modalClose" aria-label="Close video">×</button>
+      <div class="video-modal-player">
         <iframe
-          id="videoFrame"
+          id="videoIframe"
           src=""
           title="Portfolio video"
-          allow="autoplay; encrypted-media; picture-in-picture"
-          allowfullscreen>
-        </iframe>
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
       </div>
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    const menuButton = document.getElementById('menuButton');
+    const navLinks = document.getElementById('navLinks');
+    const modal = document.getElementById('videoModal');
+    const iframe = document.getElementById('videoIframe');
+    const modalClose = document.getElementById('modalClose');
+    const modalBackdrop = document.getElementById('modalBackdrop');
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    menuButton.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => navLinks.classList.remove('open'));
+    });
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: .12 });
+
+    document.querySelectorAll('.fade-in').forEach(item => observer.observe(item));
+
+    function openModal(videoId) {
+      iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modal.classList.remove('open');
+      iframe.src = '';
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.work-card').forEach(card => {
+      const videoId = card.dataset.video;
+      const externalUrl = card.dataset.externalUrl;
+      const thumb = card.querySelector('.thumb');
+      const button = card.querySelector('.view-video-btn');
+
+      if (videoId) {
+        thumb.addEventListener('click', () => openModal(videoId));
+        button.addEventListener('click', () => openModal(videoId));
+      }
+
+      if (externalUrl) {
+        const openExternal = () => {
+          window.open(externalUrl, '_blank', 'noopener,noreferrer');
+        };
+
+        thumb.addEventListener('click', openExternal);
+        button.addEventListener('click', openExternal);
+      }
+    });
+
+    modalClose.addEventListener('click', closeModal);
+    modalBackdrop.addEventListener('click', closeModal);
+
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') closeModal();
+    });
+  </script>
 </body>
 </html>
